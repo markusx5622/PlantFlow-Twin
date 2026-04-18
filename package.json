@@ -1,0 +1,16 @@
+{
+  "name": "plantflow-twin",
+  "version": "0.1.0",
+  "description": "PlantFlow Twin — Deterministic DES engine for manufacturing line simulation",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.1.0"
+  }
+}
