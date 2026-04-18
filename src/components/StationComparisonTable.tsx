@@ -11,6 +11,9 @@ interface StationComparisonTableProps {
   bottleneckChanged: boolean;
 }
 
+/** Threshold for significant utilization delta coloring. */
+const UTILIZATION_DELTA_THRESHOLD = 0.01;
+
 export function StationComparisonTable({
   stations,
   comparisons,
@@ -54,7 +57,7 @@ export function StationComparisonTable({
                 </td>
                 <td>{formatPct(c.baselineUtilization)}</td>
                 <td>{formatPct(c.variantUtilization)}</td>
-                <td style={{ color: c.utilizationDelta > 0.01 ? 'var(--warning)' : c.utilizationDelta < -0.01 ? 'var(--success)' : undefined }}>
+                <td style={{ color: c.utilizationDelta > UTILIZATION_DELTA_THRESHOLD ? 'var(--warning)' : c.utilizationDelta < -UTILIZATION_DELTA_THRESHOLD ? 'var(--success)' : undefined }}>
                   {c.utilizationDelta > 0 ? '+' : ''}{formatPct(c.utilizationDelta)}
                 </td>
                 <td>{formatPct(c.baselineBlocking)}</td>

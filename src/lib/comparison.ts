@@ -38,8 +38,11 @@ export interface ComparisonResult {
   bottleneckChanged: boolean;
 }
 
+/** Maximum percent delta shown when dividing by zero (before === 0). */
+const MAX_PERCENT_DELTA = 100;
+
 function pctDelta(before: number, after: number): number {
-  if (before === 0) return after === 0 ? 0 : 100;
+  if (before === 0) return after === 0 ? 0 : MAX_PERCENT_DELTA;
   return ((after - before) / Math.abs(before)) * 100;
 }
 

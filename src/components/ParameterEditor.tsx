@@ -117,6 +117,9 @@ function formatFieldValue(value: number, field: string): string {
   return value.toFixed(1);
 }
 
+/** Epsilon for floating-point comparison in parameter edits. */
+const FLOAT_EPSILON = 1e-9;
+
 export function ParameterEditor({ stations, buffers, edits, onEditChange }: ParameterEditorProps) {
   const fields = getEditableFields(stations, buffers);
 
@@ -134,7 +137,7 @@ export function ParameterEditor({ stations, buffers, edits, onEditChange }: Para
     );
 
     // Only add edit if value differs from original
-    const isChanged = Math.abs(value - field.currentValue) > 1e-9;
+    const isChanged = Math.abs(value - field.currentValue) > FLOAT_EPSILON;
     if (isChanged) {
       filtered.push({
         targetType: field.targetType,

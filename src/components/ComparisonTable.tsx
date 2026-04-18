@@ -15,15 +15,18 @@ function formatNumber(v: number, unit: string): string {
   return v.toFixed(2);
 }
 
+/** Threshold below which a percent delta is considered insignificant. */
+const INSIGNIFICANT_DELTA_PCT = 0.1;
+
 function deltaClass(kpi: KpiDelta): string {
-  if (Math.abs(kpi.percentDelta) < 0.1) return '';
+  if (Math.abs(kpi.percentDelta) < INSIGNIFICANT_DELTA_PCT) return '';
   if (isImproved(kpi)) return 'delta--improved';
   if (isWorsened(kpi)) return 'delta--worsened';
   return '';
 }
 
 function deltaArrow(kpi: KpiDelta): string {
-  if (Math.abs(kpi.percentDelta) < 0.1) return '—';
+  if (Math.abs(kpi.percentDelta) < INSIGNIFICANT_DELTA_PCT) return '—';
   if (isImproved(kpi)) return '▲';
   if (isWorsened(kpi)) return '▼';
   return '—';
