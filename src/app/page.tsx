@@ -26,7 +26,7 @@ export default function HomePage() {
             <span className="home-stat__label">Deterministic</span>
           </div>
           <div className="home-stat">
-            <span className="home-stat__value">&lt;50ms</span>
+            <span className="home-stat__value">{'<'}50ms</span>
             <span className="home-stat__label">Sim Time</span>
           </div>
         </div>
