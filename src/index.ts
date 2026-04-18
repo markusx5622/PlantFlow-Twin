@@ -23,18 +23,18 @@ export type {
   InternalStationState,
   InternalBufferState,
   BufferEntry,
-} from './engine/types.js';
+} from './engine/types';
 
 export {
   EventType,
   EVENT_PRIORITY,
   StationStatus,
-} from './engine/types.js';
+} from './engine/types';
 
-export { EventQueue } from './engine/event-queue.js';
-export { LineState } from './engine/line-state.js';
-export { runSimulation } from './engine/simulation.js';
-export { collectStats } from './engine/stats.js';
-export { detectBottleneck } from './engine/bottleneck.js';
-export { generateRecommendations, resetRecommendationIds } from './engine/recommendations.js';
-export { goldenScenarios, bottlingLine, electronicAssembly, pharmaPackaging } from './data/golden-scenarios.js';
+export { EventQueue } from './engine/event-queue';
+export { LineState } from './engine/line-state';
+export { runSimulation } from './engine/simulation';
+export { collectStats } from './engine/stats';
+export { detectBottleneck } from './engine/bottleneck';
+export { generateRecommendations, resetRecommendationIds } from './engine/recommendations';
+export { goldenScenarios, bottlingLine, electronicAssembly, pharmaPackaging } from './data/golden-scenarios';

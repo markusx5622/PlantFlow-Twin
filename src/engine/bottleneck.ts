@@ -9,7 +9,7 @@ import {
   StationMetrics,
   BufferMetrics,
   LineModel,
-} from './types.js';
+} from './types';
 
 const W_UTIL = 0.35;
 const W_QUEUE = 0.25;

@@ -11,12 +11,12 @@ import {
   EVENT_PRIORITY,
   StationStatus,
   Unit,
-} from './types.js';
-import { EventQueue } from './event-queue.js';
-import { LineState } from './line-state.js';
-import { collectStats } from './stats.js';
-import { detectBottleneck } from './bottleneck.js';
-import { generateRecommendations, resetRecommendationIds } from './recommendations.js';
+} from './types';
+import { EventQueue } from './event-queue';
+import { LineState } from './line-state';
+import { collectStats } from './stats';
+import { detectBottleneck } from './bottleneck';
+import { generateRecommendations, resetRecommendationIds } from './recommendations';
 
 // ─── Public API ───
 

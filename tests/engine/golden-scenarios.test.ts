@@ -1,12 +1,12 @@
 // ─── Golden Scenario Tests ───
 import { describe, it, expect } from 'vitest';
-import { runSimulation } from '../../src/engine/simulation.js';
+import { runSimulation } from '../../src/engine/simulation';
 import {
   bottlingLine,
   electronicAssembly,
   pharmaPackaging,
-} from '../../src/data/golden-scenarios.js';
-import { SimulationResult } from '../../src/engine/types.js';
+} from '../../src/data/golden-scenarios';
+import { SimulationResult } from '../../src/engine/types';
 
 function validateResult(result: SimulationResult, label: string): void {
   // Basic structure

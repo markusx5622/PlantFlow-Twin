@@ -1,7 +1,7 @@
 // ─── PlantFlow Twin — Golden Scenario Fixtures ───
 // Three canonical scenarios per spec v1.1.
 
-import { Scenario } from '../engine/types.js';
+import { Scenario } from '../engine/types';
 
 /**
  * Golden Scenario 1 — Bottling Line

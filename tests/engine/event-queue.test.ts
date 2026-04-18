@@ -1,7 +1,7 @@
 // ─── EventQueue Tests ───
 import { describe, it, expect } from 'vitest';
-import { EventQueue } from '../../src/engine/event-queue.js';
-import { EventType, EVENT_PRIORITY, SimEvent } from '../../src/engine/types.js';
+import { EventQueue } from '../../src/engine/event-queue';
+import { EventType, EVENT_PRIORITY, SimEvent } from '../../src/engine/types';
 
 function makeEvent(
   time: number,

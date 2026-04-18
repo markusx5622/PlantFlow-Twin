@@ -8,7 +8,7 @@ import {
   StationSlot,
   StationStatus,
   Unit,
-} from './types.js';
+} from './types';
 
 export class LineState {
   readonly stations: InternalStationState[];
