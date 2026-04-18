@@ -21,7 +21,7 @@ export function PageShell({ children }: PageShellProps) {
     <div className="page-shell">
       <nav className="page-shell__nav">
         <Link href="/" className="page-shell__brand">
-          PlantFlow Twin
+          ◆ PlantFlow Twin
         </Link>
         <div className="page-shell__links">
           {NAV_LINKS.map((link) => {
@@ -43,7 +43,7 @@ export function PageShell({ children }: PageShellProps) {
       </nav>
       <main className="page-shell__main">{children}</main>
       <footer className="page-shell__footer">
-        PlantFlow Twin — Deterministic DES Engine · v0.2.0
+        PlantFlow Twin — Deterministic DES Engine · Spec v1.1
       </footer>
     </div>
   );

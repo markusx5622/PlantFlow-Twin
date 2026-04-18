@@ -36,10 +36,10 @@ function renderLine(
       key={`label-${label}`}
       x={padding}
       y={yOffset - 8}
-      fill="#737373"
+      fill="#5a6070"
       fontSize={10}
       fontWeight={600}
-      fontFamily="system-ui, sans-serif"
+      fontFamily="Inter, system-ui, sans-serif"
       letterSpacing="0.08em"
       style={{ textTransform: 'uppercase' }}
     >
@@ -53,37 +53,37 @@ function renderLine(
     const util = m.utilization;
     const name = stationDisplayName(station);
 
-    const fillColor = isBn ? '#2d1215' : utilFill(util);
-    const strokeColor = isBn ? '#ef4444' : '#333333';
+    const fillColor = isBn ? '#2a1018' : utilFill(util);
+    const strokeColor = isBn ? '#f06060' : '#23262b';
     const strokeW = isBn ? 2 : 1;
 
     elements.push(
       <g key={`${label}-station-${station.id}`}>
         <rect
           x={x} y={yOffset} width={stationW} height={stationH}
-          rx={6} fill={fillColor} stroke={strokeColor} strokeWidth={strokeW}
+          rx={8} fill={fillColor} stroke={strokeColor} strokeWidth={strokeW}
         />
         <text
           x={x + stationW / 2} y={yOffset + 16} textAnchor="middle"
-          fill={isBn ? '#fca5a5' : '#e5e5e5'} fontSize={10} fontWeight={600}
-          fontFamily="system-ui, sans-serif"
+          fill={isBn ? '#fca5a5' : '#eaedf2'} fontSize={10} fontWeight={600}
+          fontFamily="Inter, system-ui, sans-serif"
         >
           {name}
         </text>
         {/* Utilization bar */}
-        <rect x={x + 10} y={yOffset + 26} width={stationW - 20} height={5} rx={2.5} fill="#1a1a1a" stroke="#333" strokeWidth={0.5} />
-        <rect x={x + 10} y={yOffset + 26} width={(stationW - 20) * Math.min(util, 1)} height={5} rx={2.5} fill={isBn ? '#ef4444' : utilBarColor(util)} />
+        <rect x={x + 10} y={yOffset + 26} width={stationW - 20} height={5} rx={2.5} fill="#16181b" stroke="#23262b" strokeWidth={0.5} />
+        <rect x={x + 10} y={yOffset + 26} width={(stationW - 20) * Math.min(util, 1)} height={5} rx={2.5} fill={isBn ? '#f06060' : utilBarColor(util)} />
         <text
           x={x + stationW / 2} y={yOffset + 44} textAnchor="middle"
-          fill={util > 0.85 ? '#eab308' : '#a3a3a3'} fontSize={9} fontFamily="monospace"
+          fill={util > 0.85 ? '#f0b429' : '#8b919e'} fontSize={9} fontFamily="monospace"
         >
           {formatPct(util)}
         </text>
         {isBn && (
           <text
             x={x + stationW / 2} y={yOffset + 58} textAnchor="middle"
-            fill="#ef4444" fontSize={8} fontWeight={700}
-            fontFamily="system-ui, sans-serif" letterSpacing="0.04em"
+            fill="#f06060" fontSize={8} fontWeight={700}
+            fontFamily="Inter, system-ui, sans-serif" letterSpacing="0.04em"
           >
             ▲ BN
           </text>
@@ -100,11 +100,11 @@ function renderLine(
         <g key={`${label}-buffer-${buffers[i].id}`}>
           <rect
             x={x} y={bufY} width={bufferW} height={24}
-            rx={4} fill="#111" stroke="#333" strokeWidth={1} strokeDasharray="4,2"
+            rx={4} fill="#0f1012" stroke="#23262b" strokeWidth={1} strokeDasharray="4,2"
           />
           <text
             x={x + bufferW / 2} y={bufY + 14} textAnchor="middle"
-            fill="#525252" fontSize={8} fontFamily="monospace"
+            fill="#3d4250" fontSize={8} fontFamily="monospace"
           >
             {isFinite(buffers[i].capacity) ? buffers[i].capacity : '∞'}
           </text>
@@ -118,15 +118,15 @@ function renderLine(
 }
 
 function utilFill(u: number): string {
-  if (u > 0.85) return '#1a1712';
-  if (u > 0.6) return '#161616';
-  return '#131313';
+  if (u > 0.85) return '#1c1810';
+  if (u > 0.6) return '#141618';
+  return '#111214';
 }
 
 function utilBarColor(u: number): string {
-  if (u > 0.85) return '#eab308';
-  if (u > 0.6) return '#3b82f6';
-  return '#22c55e';
+  if (u > 0.85) return '#f0b429';
+  if (u > 0.6) return '#4e8cff';
+  return '#2dd4a0';
 }
 
 export function ComparisonLineView({
@@ -157,7 +157,7 @@ export function ComparisonLineView({
         <line
           x1={0} y1={20 + rowHeight + rowGap / 2}
           x2={totalW} y2={20 + rowHeight + rowGap / 2}
-          stroke="#262626" strokeWidth={1} strokeDasharray="6,4"
+          stroke="#23262b" strokeWidth={1} strokeDasharray="6,4"
         />
         {baseline.elements}
         {variant.elements}

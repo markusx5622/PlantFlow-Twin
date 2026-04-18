@@ -12,6 +12,24 @@ export default function HomePage() {
           Model production lines, identify bottlenecks, and generate actionable
           optimization recommendations — all computed in real time.
         </p>
+        <div className="home-stats">
+          <div className="home-stat">
+            <span className="home-stat__value">v1.1</span>
+            <span className="home-stat__label">Engine Spec</span>
+          </div>
+          <div className="home-stat">
+            <span className="home-stat__value">DES</span>
+            <span className="home-stat__label">Discrete Event</span>
+          </div>
+          <div className="home-stat">
+            <span className="home-stat__value">100%</span>
+            <span className="home-stat__label">Deterministic</span>
+          </div>
+          <div className="home-stat">
+            <span className="home-stat__value">{'<'}50ms</span>
+            <span className="home-stat__label">Sim Time</span>
+          </div>
+        </div>
       </div>
 
       <div className="section">
