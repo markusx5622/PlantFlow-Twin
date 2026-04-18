@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Scenario } from '../lib/run-scenario';
+import { formatDuration } from '../lib/format';
 
 interface ScenarioCardProps {
   scenario: Scenario;
@@ -15,14 +16,10 @@ export function ScenarioCard({ scenario }: ScenarioCardProps) {
       <div className="scenario-card__name">{scenario.name}</div>
       <div className="scenario-card__desc">{scenario.description}</div>
       <div className="scenario-card__meta">
-        {stationCount} stations · {bufferCount} buffers · {duration}
+        <span className="scenario-card__tag">⚙ {stationCount} stations</span>
+        <span className="scenario-card__tag">⇄ {bufferCount} buffers</span>
+        <span className="scenario-card__tag">⏱ {duration}</span>
       </div>
     </Link>
   );
-}
-
-function formatDuration(seconds: number): string {
-  const hours = seconds / 3600;
-  if (hours >= 1) return `${hours}h shift`;
-  return `${seconds / 60}min`;
 }

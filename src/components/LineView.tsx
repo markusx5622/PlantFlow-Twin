@@ -1,4 +1,5 @@
 import type { Station, Buffer, StationMetrics } from '../lib/run-scenario';
+import { stationDisplayName, formatPct } from '../lib/format';
 
 interface LineViewProps {
   stations: Station[];
@@ -9,20 +10,20 @@ interface LineViewProps {
 
 /**
  * SVG-based horizontal line view showing stations, buffers, and key metrics.
- * Highlights the bottleneck station.
+ * Highlights the bottleneck station with a distinctive accent.
  */
 export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewProps) {
-  const stationW = 120;
-  const stationH = 80;
-  const bufferW = 60;
-  const gap = 8;
-  const padding = 24;
+  const stationW = 140;
+  const stationH = 88;
+  const bufferW = 64;
+  const gap = 12;
+  const padding = 28;
   const totalW =
     stations.length * stationW +
     buffers.length * bufferW +
     (stations.length + buffers.length - 1) * gap +
     padding * 2;
-  const totalH = stationH + 80 + padding * 2; // extra space for labels below
+  const totalH = stationH + 80 + padding * 2;
 
   let x = padding;
 
@@ -32,65 +33,76 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
     const m = metrics[i];
     const isBn = station.id === bottleneckId;
     const util = m.utilization;
+    const displayName = stationDisplayName(station);
 
     // Station rect
-    const fillColor = isBn ? '#7f1d1d' : utilColor(util);
-    const strokeColor = isBn ? '#ef4444' : '#404040';
+    const fillColor = isBn ? '#2d1215' : utilFill(util);
+    const strokeColor = isBn ? '#ef4444' : '#333333';
+    const strokeWidth = isBn ? 2 : 1;
 
     elements.push(
       <g key={`station-${station.id}`}>
+        {/* Station box */}
         <rect
           x={x}
           y={padding}
           width={stationW}
           height={stationH}
-          rx={6}
+          rx={8}
           fill={fillColor}
           stroke={strokeColor}
-          strokeWidth={isBn ? 2 : 1}
+          strokeWidth={strokeWidth}
         />
+
         {/* Station name */}
         <text
           x={x + stationW / 2}
-          y={padding + 22}
+          y={padding + 20}
           textAnchor="middle"
           fill={isBn ? '#fca5a5' : '#e5e5e5'}
-          fontSize={12}
+          fontSize={11}
           fontWeight={600}
+          fontFamily="system-ui, sans-serif"
         >
-          {station.name}
+          {displayName}
         </text>
-        {/* Utilization bar */}
+
+        {/* Utilization bar background */}
         <rect
-          x={x + 10}
-          y={padding + 34}
-          width={(stationW - 20) * Math.min(util, 1)}
+          x={x + 12}
+          y={padding + 32}
+          width={stationW - 24}
           height={6}
           rx={3}
-          fill={isBn ? '#ef4444' : '#3b82f6'}
-        />
-        <rect
-          x={x + 10}
-          y={padding + 34}
-          width={stationW - 20}
-          height={6}
-          rx={3}
-          fill="none"
-          stroke="#404040"
+          fill="#1a1a1a"
+          stroke="#333333"
           strokeWidth={0.5}
         />
-        {/* Util% text */}
+
+        {/* Utilization bar fill */}
+        <rect
+          x={x + 12}
+          y={padding + 32}
+          width={(stationW - 24) * Math.min(util, 1)}
+          height={6}
+          rx={3}
+          fill={isBn ? '#ef4444' : utilBarColor(util)}
+        />
+
+        {/* Utilization % */}
         <text
           x={x + stationW / 2}
-          y={padding + 56}
+          y={padding + 54}
           textAnchor="middle"
-          fill="#a3a3a3"
-          fontSize={10}
+          fill={util > 0.85 ? '#eab308' : '#a3a3a3'}
+          fontSize={11}
           fontFamily="monospace"
+          fontWeight={500}
         >
-          {(util * 100).toFixed(1)}% util
+          {formatPct(util)} utilization
         </text>
-        {/* CT label below */}
+
+        {/* CT label */}
         <text
           x={x + stationW / 2}
           y={padding + 70}
@@ -99,31 +111,45 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           fontSize={9}
           fontFamily="monospace"
         >
-          CT: {station.cycleTime}s
+          CT: {station.cycleTime}s · Avail: {formatPct(station.availability, 0)}
         </text>
-        {/* Bottleneck label */}
+
+        {/* Bottleneck indicator */}
         {isBn && (
-          <text
-            x={x + stationW / 2}
-            y={padding + stationH + 18}
-            textAnchor="middle"
-            fill="#ef4444"
-            fontSize={10}
-            fontWeight={600}
-          >
-            ▲ BOTTLENECK
-          </text>
+          <g>
+            <rect
+              x={x + stationW / 2 - 42}
+              y={padding + stationH + 6}
+              width={84}
+              height={18}
+              rx={9}
+              fill="rgba(239, 68, 68, 0.15)"
+            />
+            <text
+              x={x + stationW / 2}
+              y={padding + stationH + 18}
+              textAnchor="middle"
+              fill="#ef4444"
+              fontSize={9}
+              fontWeight={700}
+              fontFamily="system-ui, sans-serif"
+              letterSpacing="0.06em"
+            >
+              ▲ BOTTLENECK
+            </text>
+          </g>
         )}
-        {/* Blocking/starvation indicators below line */}
+
+        {/* Blocking/starvation below */}
         <text
           x={x + stationW / 2}
-          y={padding + stationH + (isBn ? 34 : 18)}
+          y={padding + stationH + (isBn ? 38 : 18)}
           textAnchor="middle"
-          fill="#737373"
+          fill="#525252"
           fontSize={8}
           fontFamily="monospace"
         >
-          B:{(m.blockingRate * 100).toFixed(0)}% S:{(m.starvationRate * 100).toFixed(0)}%
+          Block: {formatPct(m.blockingRate, 0)} · Starve: {formatPct(m.starvationRate, 0)}
         </text>
       </g>,
     );
@@ -135,39 +161,44 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
       const buf = buffers[i];
       x += gap;
 
+      const bufY = padding + stationH / 2 - 16;
+      const bufH = 32;
+
       elements.push(
         <g key={`buffer-${buf.id}`}>
-          {/* Buffer diamond/rect */}
+          {/* Buffer rect */}
           <rect
             x={x}
-            y={padding + stationH / 2 - 15}
+            y={bufY}
             width={bufferW}
-            height={30}
-            rx={4}
-            fill="#1a1a1a"
-            stroke="#404040"
+            height={bufH}
+            rx={6}
+            fill="#111111"
+            stroke="#333333"
             strokeWidth={1}
-            strokeDasharray="4,2"
+            strokeDasharray="6,3"
           />
+          {/* Capacity label */}
           <text
             x={x + bufferW / 2}
-            y={padding + stationH / 2 - 1}
+            y={bufY + 14}
             textAnchor="middle"
             fill="#737373"
-            fontSize={8}
+            fontSize={9}
             fontFamily="monospace"
           >
-            {isFinite(buf.capacity) ? `cap:${buf.capacity}` : '∞'}
+            {isFinite(buf.capacity) ? `cap: ${buf.capacity}` : '∞'}
           </text>
+          {/* Buffer label */}
           <text
             x={x + bufferW / 2}
-            y={padding + stationH / 2 + 10}
+            y={bufY + 25}
             textAnchor="middle"
-            fill="#525252"
+            fill="#404040"
             fontSize={7}
-            fontFamily="monospace"
+            fontFamily="system-ui, sans-serif"
           >
-            {buf.name}
+            buffer
           </text>
           {/* Arrow */}
           <line
@@ -196,13 +227,13 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
         <defs>
           <marker
             id="arrowhead"
-            markerWidth="6"
-            markerHeight="4"
-            refX="6"
-            refY="2"
+            markerWidth="8"
+            markerHeight="5"
+            refX="8"
+            refY="2.5"
             orient="auto"
           >
-            <polygon points="0 0, 6 2, 0 4" fill="#404040" />
+            <polygon points="0 0, 8 2.5, 0 5" fill="#404040" />
           </marker>
         </defs>
         {elements}
@@ -211,8 +242,14 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
   );
 }
 
-function utilColor(u: number): string {
-  if (u > 0.85) return '#1c1917'; // dark warm
-  if (u > 0.6) return '#171717';
-  return '#141414';
+function utilFill(u: number): string {
+  if (u > 0.85) return '#1a1712';
+  if (u > 0.6) return '#161616';
+  return '#131313';
+}
+
+function utilBarColor(u: number): string {
+  if (u > 0.85) return '#eab308';
+  if (u > 0.6) return '#3b82f6';
+  return '#22c55e';
 }
