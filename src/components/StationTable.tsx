@@ -1,5 +1,6 @@
 import type { StationMetrics } from '../lib/run-scenario';
 import type { Station } from '../engine/types';
+import { stationDisplayName, formatPct } from '../lib/format';
 
 interface StationTableProps {
   stations: Station[];
@@ -9,7 +10,7 @@ interface StationTableProps {
 
 export function StationTable({ stations, metrics, bottleneckId }: StationTableProps) {
   return (
-    <div style={{ overflowX: 'auto' }}>
+    <div className="data-table__wrap">
       <table className="data-table data-table--highlight">
         <thead>
           <tr>
@@ -31,22 +32,24 @@ export function StationTable({ stations, metrics, bottleneckId }: StationTablePr
             return (
               <tr key={station.id} className={isBn ? 'bottleneck' : ''}>
                 <td>
-                  {station.name}
+                  {stationDisplayName(station)}
                   {isBn && (
                     <>
                       {' '}
-                      <span className="badge badge--red">bottleneck</span>
+                      <span className="badge badge--red">Bottleneck</span>
                     </>
                   )}
                 </td>
                 <td>{station.cycleTime}s</td>
-                <td>{pct(station.availability)}</td>
-                <td>{pct(m.utilization)}</td>
-                <td>{pct(m.blockingRate)}</td>
-                <td>{pct(m.starvationRate)}</td>
-                <td>{m.totalProcessed}</td>
-                <td>{m.totalScrapped}</td>
-                <td>{m.totalReworked}</td>
+                <td>{formatPct(station.availability)}</td>
+                <td style={m.utilization > 0.85 ? { color: 'var(--warning)' } : undefined}>
+                  {formatPct(m.utilization)}
+                </td>
+                <td>{formatPct(m.blockingRate)}</td>
+                <td>{formatPct(m.starvationRate)}</td>
+                <td>{m.totalProcessed.toLocaleString()}</td>
+                <td>{m.totalScrapped.toLocaleString()}</td>
+                <td>{m.totalReworked.toLocaleString()}</td>
               </tr>
             );
           })}
@@ -54,8 +57,4 @@ export function StationTable({ stations, metrics, bottleneckId }: StationTablePr
       </table>
     </div>
   );
-}
-
-function pct(v: number): string {
-  return `${(v * 100).toFixed(1)}%`;
 }
