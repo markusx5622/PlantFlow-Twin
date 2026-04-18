@@ -66,7 +66,7 @@ export default function ScenarioDetailPage() {
       {/* Breadcrumb */}
       <div className="breadcrumb">
         <Link href="/demo">Scenarios</Link>
-        <span style={{ margin: '0 0.5rem', color: 'var(--text-dim)' }}>/</span>
+        <span className="breadcrumb__sep">/</span>
         <span style={{ color: 'var(--text-muted)' }}>{scenario.name}</span>
       </div>
 

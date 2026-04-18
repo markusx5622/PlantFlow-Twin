@@ -36,8 +36,8 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
     const displayName = stationDisplayName(station);
 
     // Station rect
-    const fillColor = isBn ? '#2d1215' : utilFill(util);
-    const strokeColor = isBn ? '#ef4444' : '#333333';
+    const fillColor = isBn ? '#2a1018' : utilFill(util);
+    const strokeColor = isBn ? '#f06060' : '#23262b';
     const strokeWidth = isBn ? 2 : 1;
 
     elements.push(
@@ -48,7 +48,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           y={padding}
           width={stationW}
           height={stationH}
-          rx={8}
+          rx={10}
           fill={fillColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -59,10 +59,10 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           x={x + stationW / 2}
           y={padding + 20}
           textAnchor="middle"
-          fill={isBn ? '#fca5a5' : '#e5e5e5'}
+          fill={isBn ? '#fca5a5' : '#eaedf2'}
           fontSize={11}
           fontWeight={600}
-          fontFamily="system-ui, sans-serif"
+          fontFamily="Inter, system-ui, sans-serif"
         >
           {displayName}
         </text>
@@ -74,8 +74,8 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           width={stationW - 24}
           height={6}
           rx={3}
-          fill="#1a1a1a"
-          stroke="#333333"
+          fill="#16181b"
+          stroke="#23262b"
           strokeWidth={0.5}
         />
 
@@ -86,7 +86,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           width={(stationW - 24) * Math.min(util, 1)}
           height={6}
           rx={3}
-          fill={isBn ? '#ef4444' : utilBarColor(util)}
+          fill={isBn ? '#f06060' : utilBarColor(util)}
         />
 
         {/* Utilization % */}
@@ -94,7 +94,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           x={x + stationW / 2}
           y={padding + 54}
           textAnchor="middle"
-          fill={util > 0.85 ? '#eab308' : '#a3a3a3'}
+          fill={util > 0.85 ? '#f0b429' : '#8b919e'}
           fontSize={11}
           fontFamily="monospace"
           fontWeight={500}
@@ -107,7 +107,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           x={x + stationW / 2}
           y={padding + 70}
           textAnchor="middle"
-          fill="#737373"
+          fill="#5a6070"
           fontSize={9}
           fontFamily="monospace"
         >
@@ -123,16 +123,16 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
               width={84}
               height={18}
               rx={9}
-              fill="rgba(239, 68, 68, 0.15)"
+              fill="rgba(240, 96, 96, 0.15)"
             />
             <text
               x={x + stationW / 2}
               y={padding + stationH + 18}
               textAnchor="middle"
-              fill="#ef4444"
+              fill="#f06060"
               fontSize={9}
               fontWeight={700}
-              fontFamily="system-ui, sans-serif"
+              fontFamily="Inter, system-ui, sans-serif"
               letterSpacing="0.06em"
             >
               ▲ BOTTLENECK
@@ -145,7 +145,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
           x={x + stationW / 2}
           y={padding + stationH + (isBn ? 38 : 18)}
           textAnchor="middle"
-          fill="#525252"
+          fill="#3d4250"
           fontSize={8}
           fontFamily="monospace"
         >
@@ -173,8 +173,8 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
             width={bufferW}
             height={bufH}
             rx={6}
-            fill="#111111"
-            stroke="#333333"
+            fill="#0f1012"
+            stroke="#23262b"
             strokeWidth={1}
             strokeDasharray="6,3"
           />
@@ -183,7 +183,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
             x={x + bufferW / 2}
             y={bufY + 14}
             textAnchor="middle"
-            fill="#737373"
+            fill="#5a6070"
             fontSize={9}
             fontFamily="monospace"
           >
@@ -194,9 +194,9 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
             x={x + bufferW / 2}
             y={bufY + 25}
             textAnchor="middle"
-            fill="#404040"
+            fill="#3d4250"
             fontSize={7}
-            fontFamily="system-ui, sans-serif"
+            fontFamily="Inter, system-ui, sans-serif"
           >
             buffer
           </text>
@@ -206,7 +206,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
             y1={padding + stationH / 2}
             x2={x + bufferW + gap}
             y2={padding + stationH / 2}
-            stroke="#404040"
+            stroke="#3d4250"
             strokeWidth={1}
             markerEnd="url(#arrowhead)"
           />
@@ -233,7 +233,7 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
             refY="2.5"
             orient="auto"
           >
-            <polygon points="0 0, 8 2.5, 0 5" fill="#404040" />
+            <polygon points="0 0, 8 2.5, 0 5" fill="#3d4250" />
           </marker>
         </defs>
         {elements}
@@ -243,13 +243,13 @@ export function LineView({ stations, buffers, metrics, bottleneckId }: LineViewP
 }
 
 function utilFill(u: number): string {
-  if (u > 0.85) return '#1a1712';
-  if (u > 0.6) return '#161616';
-  return '#131313';
+  if (u > 0.85) return '#1c1810';
+  if (u > 0.6) return '#141618';
+  return '#111214';
 }
 
 function utilBarColor(u: number): string {
-  if (u > 0.85) return '#eab308';
-  if (u > 0.6) return '#3b82f6';
-  return '#22c55e';
+  if (u > 0.85) return '#f0b429';
+  if (u > 0.6) return '#4e8cff';
+  return '#2dd4a0';
 }
