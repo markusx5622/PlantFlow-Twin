@@ -23,6 +23,7 @@ export const bottlingLine: Scenario = {
         availability: 0.95,
         defectRate: 0.01,
         maxReworkAttempts: 1,
+        capacity: 1,
       },
       {
         id: 's-cap',
@@ -31,6 +32,7 @@ export const bottlingLine: Scenario = {
         availability: 0.98,
         defectRate: 0.005,
         maxReworkAttempts: 1,
+        capacity: 1,
       },
       {
         id: 's-label',
@@ -39,6 +41,7 @@ export const bottlingLine: Scenario = {
         availability: 0.97,
         defectRate: 0.02,
         maxReworkAttempts: 2,
+        capacity: 1,
       },
       {
         id: 's-package',
@@ -47,6 +50,7 @@ export const bottlingLine: Scenario = {
         availability: 0.90,
         defectRate: 0.005,
         maxReworkAttempts: 0,
+        capacity: 1,
       },
     ],
     buffers: [
@@ -94,6 +98,7 @@ export const electronicAssembly: Scenario = {
         availability: 0.92,
         defectRate: 0.03,
         maxReworkAttempts: 2,
+        capacity: 1,
       },
       {
         id: 's-reflow',
@@ -102,6 +107,7 @@ export const electronicAssembly: Scenario = {
         availability: 0.99,
         defectRate: 0.01,
         maxReworkAttempts: 0,
+        capacity: 1,
       },
       {
         id: 's-aoi',
@@ -110,6 +116,7 @@ export const electronicAssembly: Scenario = {
         availability: 0.95,
         defectRate: 0.005,
         maxReworkAttempts: 0,
+        capacity: 1,
       },
       {
         id: 's-ict',
@@ -118,6 +125,7 @@ export const electronicAssembly: Scenario = {
         availability: 0.93,
         defectRate: 0.02,
         maxReworkAttempts: 1,
+        capacity: 1,
       },
       {
         id: 's-coat',
@@ -126,6 +134,7 @@ export const electronicAssembly: Scenario = {
         availability: 0.97,
         defectRate: 0.005,
         maxReworkAttempts: 0,
+        capacity: 1,
       },
     ],
     buffers: [
@@ -174,6 +183,7 @@ export const pharmaPackaging: Scenario = {
         availability: 0.96,
         defectRate: 0.005,
         maxReworkAttempts: 0,
+        capacity: 1,
       },
       {
         id: 's-seal',
@@ -182,6 +192,7 @@ export const pharmaPackaging: Scenario = {
         availability: 0.94,
         defectRate: 0.01,
         maxReworkAttempts: 1,
+        capacity: 1,
       },
       {
         id: 's-plabel',
@@ -190,6 +201,7 @@ export const pharmaPackaging: Scenario = {
         availability: 0.98,
         defectRate: 0.008,
         maxReworkAttempts: 1,
+        capacity: 1,
       },
       {
         id: 's-box',
@@ -198,6 +210,7 @@ export const pharmaPackaging: Scenario = {
         availability: 0.92,
         defectRate: 0.003,
         maxReworkAttempts: 0,
+        capacity: 1,
       },
     ],
     buffers: [

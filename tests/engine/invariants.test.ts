@@ -18,9 +18,9 @@ function makeMinimalScenario(): Scenario {
       id: 'lm-inv',
       name: 'Inv Line',
       stations: [
-        { id: 's1', name: 'S1', cycleTime: 10, availability: 0.95, defectRate: 0.05, maxReworkAttempts: 1 },
-        { id: 's2', name: 'S2', cycleTime: 15, availability: 0.90, defectRate: 0.02, maxReworkAttempts: 0 },
-        { id: 's3', name: 'S3', cycleTime: 8, availability: 0.98, defectRate: 0.01, maxReworkAttempts: 2 },
+        { id: 's1', name: 'S1', cycleTime: 10, availability: 0.95, defectRate: 0.05, maxReworkAttempts: 1, capacity: 1 },
+        { id: 's2', name: 'S2', cycleTime: 15, availability: 0.90, defectRate: 0.02, maxReworkAttempts: 0, capacity: 1 },
+        { id: 's3', name: 'S3', cycleTime: 8, availability: 0.98, defectRate: 0.01, maxReworkAttempts: 2, capacity: 1 },
       ],
       buffers: [
         { id: 'b1', name: 'B1', capacity: 5 },

@@ -5,6 +5,7 @@ import {
   LineModel,
   InternalStationState,
   InternalBufferState,
+  StationSlot,
   StationStatus,
   Unit,
 } from './types.js';
@@ -24,7 +25,7 @@ export class LineState {
   maxWip = 0;
 
   constructor(private readonly model: LineModel) {
-    this.stations = model.stations.map(() => this.freshStationState());
+    this.stations = model.stations.map((s) => this.freshStationState(s.capacity));
     this.buffers = model.buffers.map(() => this.freshBufferState());
   }
 
@@ -52,7 +53,9 @@ export class LineState {
   computeCurrentWip(): number {
     let wip = 0;
     for (const s of this.stations) {
-      if (s.currentUnit !== null) wip++;
+      for (const slot of s.slots) {
+        if (slot.unit !== null) wip++;
+      }
     }
     for (const b of this.buffers) {
       wip += b.entries.length;
@@ -69,33 +72,39 @@ export class LineState {
     return finalSum / duration;
   }
 
-  // ─── Station State Transitions ───
+  // ─── Slot State Transitions ───
 
-  transitionStation(
+  /**
+   * Transition a specific slot within a station to a new status.
+   * Accumulates time spent in the previous status into the station aggregates.
+   */
+  transitionSlot(
     stationIndex: number,
+    slotIndex: number,
     newStatus: StationStatus,
     time: number,
   ): void {
-    const s = this.stations[stationIndex];
-    const elapsed = time - s.stateEnteredAt;
+    const ss = this.stations[stationIndex];
+    const slot = ss.slots[slotIndex];
+    const elapsed = time - slot.stateEnteredAt;
 
-    switch (s.status) {
+    switch (slot.status) {
       case StationStatus.PROCESSING:
-        s.totalProcessingTime += elapsed;
+        ss.totalProcessingTime += elapsed;
         break;
       case StationStatus.BLOCKED:
-        s.totalBlockedTime += elapsed;
+        ss.totalBlockedTime += elapsed;
         break;
       case StationStatus.IDLE:
-        s.totalIdleTime += elapsed;
+        ss.totalIdleTime += elapsed;
         break;
       case StationStatus.ON_BREAK:
-        s.totalBreakTime += elapsed;
+        ss.totalBreakTime += elapsed;
         break;
     }
 
-    s.status = newStatus;
-    s.stateEnteredAt = time;
+    slot.status = newStatus;
+    slot.stateEnteredAt = time;
   }
 
   // ─── Buffer Operations ───
@@ -140,15 +149,26 @@ export class LineState {
 
   // ─── Helpers ───
 
-  private freshStationState(): InternalStationState {
+  private freshSlot(): StationSlot {
     return {
-      status: StationStatus.IDLE,
-      currentUnit: null,
-      defectAccumulator: 0,
+      unit: null,
       remainingProcessingTime: 0,
-      preBreakStatus: null,
       version: 0,
+      status: StationStatus.IDLE,
       stateEnteredAt: 0,
+      preBreakStatus: null,
+    };
+  }
+
+  private freshStationState(capacity: number): InternalStationState {
+    const slots: StationSlot[] = [];
+    for (let i = 0; i < capacity; i++) {
+      slots.push(this.freshSlot());
+    }
+    return {
+      slots,
+      defectAccumulator: 0,
+      stationVersion: 0,
       totalProcessingTime: 0,
       totalBlockedTime: 0,
       totalIdleTime: 0,
