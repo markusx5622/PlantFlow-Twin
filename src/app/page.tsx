@@ -61,6 +61,9 @@ export default function HomePage() {
           <Link href="/demo" className="btn btn--primary btn--lg">
             Run Simulation Demo
           </Link>
+          <Link href="/lab" className="btn btn--primary btn--lg">
+            Operations Lab
+          </Link>
           <Link href="/debug" className="btn btn--lg">
             Engine Inspector
           </Link>
