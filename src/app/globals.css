@@ -16,9 +16,13 @@
   --text-muted: #8b919e;
   --text-dim: #5a6070;
   --accent: #4e8cff;
+  --accent-light: #7bb5ff;
   --accent-dim: #2d6bdd;
   --accent-glow: rgba(78, 140, 255, 0.12);
   --accent-subtle: rgba(78, 140, 255, 0.06);
+  --text-bright: #ffffff;
+  --text-soft: #d0ddf0;
+  --text-mid: #a0b8e0;
   --success: #2dd4a0;
   --success-subtle: rgba(45, 212, 160, 0.08);
   --warning: #f0b429;
@@ -1259,7 +1263,7 @@ pre {
 
 .home-hero__title-line {
   display: block;
-  background: linear-gradient(135deg, #ffffff 0%, #d0ddf0 50%, #a0b8e0 100%);
+  background: linear-gradient(135deg, var(--text-bright) 0%, var(--text-soft) 50%, var(--text-mid) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1267,7 +1271,7 @@ pre {
 
 .home-hero__title-accent {
   display: inline-block;
-  background: linear-gradient(135deg, var(--accent) 0%, #7bb5ff 50%, var(--accent) 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

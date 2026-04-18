@@ -87,8 +87,10 @@ function IconArrow() {
 
 /* ── Data ── */
 
+const ENGINE_VERSION = 'v1.1';
+
 const TECH_BADGES = [
-  { value: 'v1.1', label: 'Engine Spec' },
+  { value: ENGINE_VERSION, label: 'Engine Spec' },
   { value: 'DES', label: 'Discrete Event' },
   { value: '100%', label: 'Deterministic' },
   { value: '<50ms', label: 'Sim Time' },
@@ -267,7 +269,7 @@ export default function HomePage() {
       {/* ── Tech Specs ── */}
       <section className="home-tech">
         <div className="home-tech__header">
-          <div className="home-tech__label">Engine Specification v1.1</div>
+          <div className="home-tech__label">Engine Specification {ENGINE_VERSION}</div>
           <div className="home-tech__sublabel">
             Built for deterministic, reproducible process simulation
           </div>
