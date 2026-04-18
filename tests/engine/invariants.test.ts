@@ -1,13 +1,13 @@
 // ─── Invariant Tests ───
 // Validates structural and mathematical invariants of the simulation.
 import { describe, it, expect } from 'vitest';
-import { runSimulation } from '../../src/engine/simulation.js';
+import { runSimulation } from '../../src/engine/simulation';
 import {
   bottlingLine,
   electronicAssembly,
   pharmaPackaging,
-} from '../../src/data/golden-scenarios.js';
-import { Scenario, SimulationResult } from '../../src/engine/types.js';
+} from '../../src/data/golden-scenarios';
+import { Scenario, SimulationResult } from '../../src/engine/types';
 
 function makeMinimalScenario(): Scenario {
   return {

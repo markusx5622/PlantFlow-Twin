@@ -4,14 +4,14 @@
 // - Prepares ScenarioChange structs
 // - Does NOT fabricate re-simulated impact numbers
 import { describe, it, expect, beforeEach } from 'vitest';
-import { generateRecommendations, resetRecommendationIds } from '../../src/engine/recommendations.js';
-import { detectBottleneck } from '../../src/engine/bottleneck.js';
+import { generateRecommendations, resetRecommendationIds } from '../../src/engine/recommendations';
+import { detectBottleneck } from '../../src/engine/bottleneck';
 import {
   StationMetrics,
   BufferMetrics,
   LineModel,
   BottleneckResult,
-} from '../../src/engine/types.js';
+} from '../../src/engine/types';
 
 function makeMetrics(
   stationId: string,

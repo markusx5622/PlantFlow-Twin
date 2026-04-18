@@ -1,7 +1,7 @@
 // ─── Bottleneck Detection Tests ───
 import { describe, it, expect } from 'vitest';
-import { detectBottleneck } from '../../src/engine/bottleneck.js';
-import { StationMetrics, BufferMetrics, LineModel } from '../../src/engine/types.js';
+import { detectBottleneck } from '../../src/engine/bottleneck';
+import { StationMetrics, BufferMetrics, LineModel } from '../../src/engine/types';
 
 function makeMetrics(
   stationId: string,

@@ -1,7 +1,7 @@
 // ─── Simulation Engine Core Tests ───
 import { describe, it, expect } from 'vitest';
-import { runSimulation } from '../../src/engine/simulation.js';
-import { Scenario } from '../../src/engine/types.js';
+import { runSimulation } from '../../src/engine/simulation';
+import { Scenario } from '../../src/engine/types';
 
 function makeSimpleScenario(overrides: Partial<{
   stations: Partial<Scenario['lineModel']['stations'][0]>[];

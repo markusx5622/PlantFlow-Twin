@@ -8,8 +8,8 @@ import {
   SimulationSummary,
   StationMetrics,
   BufferMetrics,
-} from './types.js';
-import { LineState } from './line-state.js';
+} from './types';
+import { LineState } from './line-state';
 
 export function collectStats(
   state: LineState,

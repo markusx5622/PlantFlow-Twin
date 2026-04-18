@@ -1,7 +1,7 @@
 // ─── PlantFlow Twin — Event Queue (min-heap) ───
 // Orders by time ASC, then by priority ASC (lower = higher urgency).
 
-import { SimEvent } from './types.js';
+import { SimEvent } from './types';
 
 export class EventQueue {
   private heap: SimEvent[] = [];

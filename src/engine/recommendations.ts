@@ -11,7 +11,7 @@ import {
   BottleneckResult,
   LineModel,
   EntityId,
-} from './types.js';
+} from './types';
 
 let recCounter = 0;
 function nextRecId(): string {
