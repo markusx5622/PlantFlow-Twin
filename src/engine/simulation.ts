@@ -189,11 +189,11 @@ function handleProcessEnd(
   if (ss.defectAccumulator >= 1.0) {
     ss.defectAccumulator -= 1.0;
 
-    const attempts = (unit.reworkAttempts.get(station.id) ?? 0) + 1;
-    unit.reworkAttempts.set(station.id, attempts);
+    const previousAttempts = unit.reworkAttempts.get(station.id) ?? 0;
+    const nextAttempt = previousAttempts + 1;
 
-    if (attempts > station.maxReworkAttempts) {
-      // Forced scrap
+    if (nextAttempt > station.maxReworkAttempts) {
+      // Forced scrap — no rework processing occurs
       ss.totalScrapped++;
       unit.completedAt = time;
       state.scrappedUnits.push(unit);
@@ -206,7 +206,8 @@ function handleProcessEnd(
       return;
     }
 
-    // Rework: process again on the same station
+    // Rework: record attempt and process again on the same station
+    unit.reworkAttempts.set(station.id, nextAttempt);
     ss.totalReworked++;
     const effectiveCT = station.cycleTime / station.availability;
     ss.remainingProcessingTime = effectiveCT;
