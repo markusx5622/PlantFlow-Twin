@@ -1,5 +1,6 @@
 // ─── PlantFlow Twin — Stats Collector ───
 // Computes post-simulation metrics from LineState.
+// For stations with capacity > 1, time metrics are normalized by capacity.
 
 import {
   LineModel,
@@ -60,32 +61,33 @@ export function collectStats(
   // ── Station Metrics ──
   const stationMetrics: StationMetrics[] = model.stations.map((station, i) => {
     const s = state.stations[i];
+    const capacity = station.capacity;
 
-    // Finalize the current state interval to end time
-    const elapsed = end - s.stateEnteredAt;
+    // Finalize the current slot intervals to end time
     let procTime = s.totalProcessingTime;
     let blockTime = s.totalBlockedTime;
     let idleTime = s.totalIdleTime;
     let breakTime = s.totalBreakTime;
 
-    switch (s.status) {
-      case 'PROCESSING':
-        procTime += elapsed;
-        break;
-      case 'BLOCKED':
-        blockTime += elapsed;
-        break;
-      case 'IDLE':
-        idleTime += elapsed;
-        break;
-      case 'ON_BREAK':
-        breakTime += elapsed;
-        break;
+    for (const slot of s.slots) {
+      const elapsed = end - slot.stateEnteredAt;
+      switch (slot.status) {
+        case 'PROCESSING':
+          procTime += elapsed;
+          break;
+        case 'BLOCKED':
+          blockTime += elapsed;
+          break;
+        case 'IDLE':
+          idleTime += elapsed;
+          break;
+        case 'ON_BREAK':
+          breakTime += elapsed;
+          break;
+      }
     }
 
     // Subtract warmup portion (approximate: proportional)
-    // For proper warmup handling, we'd need per-phase tracking.
-    // Here we use a simple ratio approach when warmup > 0.
     if (warmup > 0 && end > 0) {
       const ratio = postWarmupDuration / end;
       procTime *= ratio;
@@ -94,6 +96,7 @@ export function collectStats(
       breakTime *= ratio;
     }
 
+    // For capacity > 1, activeTime spans multiple slots
     const activeTime = procTime + blockTime + idleTime;
     const utilization = activeTime > 0 ? procTime / activeTime : 0;
     const blockingRate = activeTime > 0 ? blockTime / activeTime : 0;

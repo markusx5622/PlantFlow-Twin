@@ -19,6 +19,8 @@ export interface Station {
   defectRate: number;
   /** Max rework attempts before forced scrap; 0 = scrap on first defect */
   maxReworkAttempts: number;
+  /** Number of parallel processing slots; defaults to 1 */
+  capacity: number;
 }
 
 export interface Buffer {
@@ -190,7 +192,9 @@ export interface SimEvent {
   priority: number;
   /** Station index this event relates to (-1 for global) */
   stationIndex: number;
-  /** Version counter to detect stale events */
+  /** Slot index within the station (-1 for station-level events like TRY_ACTIVATE) */
+  slotIndex: number;
+  /** Version counter to detect stale events (slot-level for PROCESS_END, station-level for TRY_ACTIVATE) */
   version: number;
 }
 
@@ -209,20 +213,27 @@ export interface Unit {
   completedAt?: number;
 }
 
-export interface InternalStationState {
-  status: StationStatus;
-  currentUnit: Unit | null;
-  /** Deterministic defect accumulator */
-  defectAccumulator: number;
-  /** Remaining processing time when interrupted by break */
+/** Per-slot state within a station (supports capacity > 1 parallelism) */
+export interface StationSlot {
+  unit: Unit | null;
   remainingProcessingTime: number;
-  /** Status before a break started (for resume) */
-  preBreakStatus: StationStatus | null;
-  /** Monotonic version counter — incremented when pending events become stale */
+  /** Monotonic version counter — per-slot for PROCESS_END staleness */
   version: number;
-
-  // ── Time tracking ──
+  status: StationStatus;
   stateEnteredAt: number;
+  /** Slot status before a break started (for resume) */
+  preBreakStatus: StationStatus | null;
+}
+
+export interface InternalStationState {
+  /** One slot per capacity unit; length = station.capacity */
+  slots: StationSlot[];
+  /** Deterministic defect accumulator (shared across slots) */
+  defectAccumulator: number;
+  /** Station-level version counter for TRY_ACTIVATE staleness */
+  stationVersion: number;
+
+  // ── Aggregate time tracking (summed across all slots) ──
   totalProcessingTime: number;
   totalBlockedTime: number;
   totalIdleTime: number;

@@ -9,7 +9,7 @@ function makeEvent(
   stationIndex = -1,
   version = 0,
 ): SimEvent {
-  return { time, type, priority: EVENT_PRIORITY[type], stationIndex, version };
+  return { time, type, priority: EVENT_PRIORITY[type], stationIndex, slotIndex: -1, version };
 }
 
 describe('EventQueue', () => {
@@ -109,5 +109,28 @@ describe('EventQueue', () => {
     expect(sorted[1].time).toBe(5);
     expect(sorted[1].type).toBe(EventType.TRY_ACTIVATE);
     expect(sorted[2].time).toBe(10);
+  });
+});
+
+// ─── Spec v1.1 Event Priority Validation ───
+describe('Spec v1.1 — Event Priority Values', () => {
+  it('has exactly 5 event types', () => {
+    const types = Object.values(EventType).filter((v) => typeof v === 'string');
+    expect(types).toHaveLength(5);
+  });
+
+  it('priorities match spec v1.1 frozen ordering: SIM_END < BREAK_START < BREAK_END < PROCESS_END < TRY_ACTIVATE', () => {
+    expect(EVENT_PRIORITY[EventType.SIMULATION_END]).toBe(0);
+    expect(EVENT_PRIORITY[EventType.BREAK_START]).toBe(1);
+    expect(EVENT_PRIORITY[EventType.BREAK_END]).toBe(2);
+    expect(EVENT_PRIORITY[EventType.PROCESS_END]).toBe(3);
+    expect(EVENT_PRIORITY[EventType.TRY_ACTIVATE]).toBe(4);
+  });
+
+  it('lower priority number fires first when times are equal (spec v1.1)', () => {
+    expect(EVENT_PRIORITY[EventType.SIMULATION_END]).toBeLessThan(EVENT_PRIORITY[EventType.BREAK_START]);
+    expect(EVENT_PRIORITY[EventType.BREAK_START]).toBeLessThan(EVENT_PRIORITY[EventType.BREAK_END]);
+    expect(EVENT_PRIORITY[EventType.BREAK_END]).toBeLessThan(EVENT_PRIORITY[EventType.PROCESS_END]);
+    expect(EVENT_PRIORITY[EventType.PROCESS_END]).toBeLessThan(EVENT_PRIORITY[EventType.TRY_ACTIVATE]);
   });
 });
