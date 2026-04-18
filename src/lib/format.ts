@@ -17,9 +17,9 @@ const STATION_DISPLAY_NAMES: Record<string, string> = {
   's-aoi': 'AOI Inspection',
   's-ict': 'ICT Testing',
   's-coat': 'Conformal Coating',
-  's-pfill': 'Filling Station',
+  's-pfill': 'Pharma Filling',
   's-seal': 'Sealing Station',
-  's-plabel': 'Labeling Station',
+  's-plabel': 'Pharma Labeling',
   's-box': 'Boxing Station',
 };
 
@@ -49,24 +49,27 @@ export function bufferDisplayName(buffer: Buffer): string {
 
 // ─── KPI Formatting ───
 
+const SECONDS_PER_HOUR = 3600;
+const SECONDS_PER_MINUTE = 60;
+
 /** Format throughput: prefer units/hour for better readability. */
 export function formatThroughput(unitsPerSecond: number): { value: string; unit: string } {
-  const perHour = unitsPerSecond * 3600;
+  const perHour = unitsPerSecond * SECONDS_PER_HOUR;
   if (perHour >= 1) {
     return { value: perHour.toFixed(1), unit: 'units/hr' };
   }
   // Very low throughput — show per minute
-  const perMin = unitsPerSecond * 60;
+  const perMin = unitsPerSecond * SECONDS_PER_MINUTE;
   return { value: perMin.toFixed(2), unit: 'units/min' };
 }
 
 /** Format lead time in human-friendly units. */
 export function formatLeadTime(seconds: number): { value: string; unit: string } {
-  if (seconds >= 3600) {
-    return { value: (seconds / 3600).toFixed(1), unit: 'hours' };
+  if (seconds >= SECONDS_PER_HOUR) {
+    return { value: (seconds / SECONDS_PER_HOUR).toFixed(1), unit: 'hours' };
   }
-  if (seconds >= 60) {
-    return { value: (seconds / 60).toFixed(1), unit: 'min' };
+  if (seconds >= SECONDS_PER_MINUTE) {
+    return { value: (seconds / SECONDS_PER_MINUTE).toFixed(1), unit: 'min' };
   }
   return { value: seconds.toFixed(1), unit: 'sec' };
 }
@@ -89,8 +92,8 @@ export function formatDecimal(v: number, decimals = 2): string {
 
 /** Format wait time in readable form. */
 export function formatWaitTime(seconds: number): string {
-  if (seconds >= 60) {
-    return `${(seconds / 60).toFixed(1)} min`;
+  if (seconds >= SECONDS_PER_MINUTE) {
+    return `${(seconds / SECONDS_PER_MINUTE).toFixed(1)} min`;
   }
   return `${seconds.toFixed(1)}s`;
 }
@@ -135,13 +138,13 @@ export function recTypeLabel(type: string): string {
 
 /** Format a duration in seconds to human-readable form. */
 export function formatDuration(seconds: number): string {
-  if (seconds >= 3600) {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
+  if (seconds >= SECONDS_PER_HOUR) {
+    const h = Math.floor(seconds / SECONDS_PER_HOUR);
+    const m = Math.floor((seconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
     return m > 0 ? `${h}h ${m}min` : `${h}h`;
   }
-  if (seconds >= 60) {
-    return `${Math.floor(seconds / 60)} min`;
+  if (seconds >= SECONDS_PER_MINUTE) {
+    return `${Math.floor(seconds / SECONDS_PER_MINUTE)} min`;
   }
   return `${seconds}s`;
 }

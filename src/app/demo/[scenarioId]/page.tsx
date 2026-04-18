@@ -19,6 +19,15 @@ import {
   bufferDisplayName,
 } from '../../../lib/format';
 import Link from 'next/link';
+import type { ConfidenceDisplay } from '../../../lib/format';
+
+function confidenceBadgeClass(color: ConfidenceDisplay['color']): string {
+  switch (color) {
+    case 'success': return 'green';
+    case 'warning': return 'yellow';
+    case 'danger': return 'red';
+  }
+}
 
 export default function ScenarioDetailPage() {
   const params = useParams<{ scenarioId: string }>();
@@ -122,7 +131,7 @@ export default function ScenarioDetailPage() {
         <div className="bn-card">
           <div className="bn-card__header">
             <span className="bn-card__station">{bnDisplayName}</span>
-            <span className={`badge badge--${conf.color === 'success' ? 'green' : conf.color === 'warning' ? 'yellow' : 'red'}`}>
+            <span className={`badge badge--${confidenceBadgeClass(conf.color)}`}>
               {conf.label}
             </span>
           </div>

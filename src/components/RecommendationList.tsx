@@ -25,7 +25,7 @@ export function RecommendationList({ recommendations, stations }: Recommendation
     <div className="rec-list">
       {recommendations.map((rec) => {
         const effortClass = rec.effort.toLowerCase();
-        const targetName = stationName(rec.targetId) || rec.targetId;
+        const targetName = stationName(rec.targetId);
 
         return (
           <div key={rec.id} className="rec-item">
